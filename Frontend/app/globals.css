@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 25 95% 53%;
+    --radius: 0.5rem;
+
+    /* Professional color palette */
+    --primary-orange: 25 95% 53%;
+    --success-green: 142 76% 36%;
+    --warning-yellow: 48 96% 53%;
+    --error-red: 0 84% 60%;
+    --info-blue: 217 91% 60%;
+    --neutral-gray: 0 0% 63.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+    min-height: 100vh;
+  }
+}
+
+.professional-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary-orange)) 0%, hsl(var(--warning-yellow)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-professional {
+  background: rgba(17, 17, 17, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.card-professional-hover {
+  transition: all 0.3s ease;
+}
+
+.card-professional-hover:hover {
+  border-color: hsl(var(--primary-orange) / 0.3);
+  box-shadow: 0 8px 32px rgba(255, 138, 0, 0.1);
+}
+
+.status-connected {
+  color: hsl(var(--success-green));
+}
+
+.status-disconnected {
+  color: hsl(var(--neutral-gray));
+}
+
+.accent-primary {
+  color: hsl(var(--primary-orange));
+}
+
+.accent-success {
+  color: hsl(var(--success-green));
+}
+
+.accent-warning {
+  color: hsl(var(--warning-yellow));
+}
+
+.accent-error {
+  color: hsl(var(--error-red));
+}
+
+.accent-info {
+  color: hsl(var(--info-blue));
+}
