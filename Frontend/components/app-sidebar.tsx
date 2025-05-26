@@ -1,6 +1,6 @@
 "use client"
 
-import { Calendar, Home, Settings, TrendingUp, User, Trophy, BarChart3, LinkIcon, LogOut } from "lucide-react"
+import { Calendar, Home, Settings, User, Trophy, BarChart3, LinkIcon, LogOut, Award } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
@@ -49,14 +49,9 @@ const menuItems = [
     icon: BarChart3,
   },
   {
-    title: "Progress",
-    url: "/progress",
-    icon: TrendingUp,
-  },
-  {
-    title: "Achievements",
-    url: "/achievements",
-    icon: Trophy,
+    title: "Badges",
+    url: "/badges",
+    icon: Award,
   },
   {
     title: "Calendar",

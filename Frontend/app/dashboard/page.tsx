@@ -97,9 +97,40 @@ interface TodoItem {
   createdAt: Date
 }
 
+// Rank system
+const rankSystem = [
+  { title: "Bronze", minXP: 0, maxXP: 499, color: "text-amber-600", icon: () => <span>🥉</span> },
+  { title: "Silver", minXP: 500, maxXP: 999, color: "text-gray-400", icon: () => <span>🥈</span> },
+  { title: "Gold", minXP: 1000, maxXP: 1999, color: "text-yellow-500", icon: () => <span>🥇</span> },
+  { title: "Platinum", minXP: 2000, maxXP: 3499, color: "text-cyan-400", icon: () => <span>💎</span> },
+  { title: "Diamond", minXP: 3500, maxXP: 4999, color: "text-blue-400", icon: () => <span>💠</span> },
+  { title: "Ace", minXP: 5000, maxXP: 7499, color: "text-purple-500", icon: () => <span>⚡</span> },
+  { title: "Ace-1", minXP: 7500, maxXP: 9999, color: "text-purple-600", icon: () => <span>🔥</span> },
+  { title: "Ace-2", minXP: 10000, maxXP: 12499, color: "text-purple-700", icon: () => <span>🎯</span> },
+  { title: "Conqueror", minXP: 12500, maxXP: 14999, color: "text-red-500", icon: () => <span>🛡️</span> },
+  { title: "Legendary", minXP: 15000, maxXP: 19999, color: "text-orange-500", icon: () => <span>👑</span> },
+  {
+    title: "Code Verse Grandmaster",
+    minXP: 20000,
+    maxXP: Number.POSITIVE_INFINITY,
+    color: "text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text",
+    icon: () => <span>✨</span>,
+  },
+]
+
+const getCurrentRank = (xp: number) => {
+  for (let i = rankSystem.length - 1; i >= 0; i--) {
+    if (xp >= rankSystem[i].minXP) {
+      return rankSystem[i]
+    }
+  }
+  return rankSystem[0]
+}
+
 export default function DashboardPage() {
   const totalSolved = platformStats.reduce((sum, platform) => sum + platform.solved, 0)
   const [userName, setUserName] = useState("John")
+  const [currentXP, setCurrentXP] = useState(2750) // Example XP
   const [todos, setTodos] = useState<TodoItem[]>([
     {
       id: "1",
@@ -123,6 +154,8 @@ export default function DashboardPage() {
   const [newTodo, setNewTodo] = useState("")
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingText, setEditingText] = useState("")
+
+  const currentRank = getCurrentRank(currentXP)
 
   useEffect(() => {
     // Get user data from localStorage
@@ -242,16 +275,26 @@ export default function DashboardPage() {
 
         <div className="flex-1 overflow-auto">
           <div className="container mx-auto max-w-7xl p-4 lg:p-6 space-y-6">
-            {/* Welcome Section */}
+            {/* Welcome Section with Rank */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="min-w-0">
                 <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">Welcome back, {userName}!</h1>
-                <p className="text-gray-400">Here's your coding journey overview</p>
+                <div className="flex items-center gap-3">
+                  <p className="text-gray-400">Here's your coding journey overview</p>
+                  <Badge className={`${currentRank.color} bg-gray-800/50 border-gray-700 flex items-center gap-1`}>
+                    <currentRank.icon />
+                    {currentRank.title}
+                  </Badge>
+                </div>
               </div>
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 flex items-center gap-3">
                 <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-lg">
                   <Flame className="h-4 w-4" />
                   <span>15 day streak</span>
+                </div>
+                <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-lg">
+                  <Star className="h-4 w-4" />
+                  <span>{currentXP.toLocaleString()} XP</span>
                 </div>
               </div>
             </div>
@@ -273,14 +316,14 @@ export default function DashboardPage() {
               </Card>
               <Card className="card-professional card-professional-hover">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-300">Avg Rating</CardTitle>
-                  <Star className="h-5 w-5 text-amber-500" />
+                  <CardTitle className="text-sm font-medium text-gray-300">Current Rank</CardTitle>
+                  <currentRank.icon />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-white">1781</div>
-                  <p className="text-xs text-amber-400 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-3 w-3" />
-                    +45 from last month
+                  <div className={`text-2xl font-bold ${currentRank.color}`}>{currentRank.title}</div>
+                  <p className="text-xs text-purple-400 flex items-center gap-1 mt-1">
+                    <Star className="h-3 w-3" />
+                    {currentXP.toLocaleString()} XP
                   </p>
                 </CardContent>
               </Card>
