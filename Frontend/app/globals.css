@@ -95,3 +95,32 @@
 .accent-info {
   color: hsl(var(--info-blue));
 }
+
+/* Responsive utilities */
+@layer utilities {
+  .container-responsive {
+    @apply max-w-full overflow-hidden;
+  }
+
+  .scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+
+  .scroll-container::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.7);
+  }
+}

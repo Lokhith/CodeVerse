@@ -112,16 +112,18 @@ export default function PlatformsPage() {
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <div className="flex flex-1 flex-col gap-8 p-6 bg-gray-950">
+        <div className="flex flex-1 flex-col gap-6 sm:gap-8 p-4 sm:p-6 bg-gray-950">
           <div>
-            <h1 className="text-3xl font-bold text-white flex items-center gap-3 mb-2">
-              <Globe className="h-8 w-8 text-orange-500" />
+            <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3 mb-2">
+              <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" />
               Platform Integration
             </h1>
-            <p className="text-gray-400 text-lg">Connect your coding platform accounts to unify your progress</p>
+            <p className="text-gray-400 text-base sm:text-lg">
+              Connect your coding platform accounts to unify your progress
+            </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
             {platformData.map((platform) => (
               <Card key={platform.id} className="card-professional card-professional-hover">
                 <CardHeader>
@@ -253,7 +255,7 @@ export default function PlatformsPage() {
               <CardDescription className="text-gray-400">Overview of your connected platforms</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
                   <div className="text-2xl font-bold text-green-400">
                     {platformData.filter((p) => p.connected).length}
