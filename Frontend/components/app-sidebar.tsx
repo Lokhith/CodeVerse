@@ -19,13 +19,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -67,7 +61,7 @@ const platformItems = [
     icon: LinkIcon,
   },
   {
-    title: "Profile Settings",
+    title: "Profile",
     url: "/profile",
     icon: User,
   },
@@ -87,8 +81,10 @@ export function AppSidebar() {
   const [userData, setUserData] = useState({
     firstName: "John",
     lastName: "Doe",
+    username: "johndoe",
     email: "john@example.com",
     initials: "JD",
+    avatar: "/placeholder.svg?height=40&width=40",
   })
 
   useEffect(() => {
@@ -97,14 +93,17 @@ export function AppSidebar() {
       try {
         const authToken = localStorage.getItem("authToken")
         const storedUserData = localStorage.getItem("userData")
+        const storedAvatar = localStorage.getItem("userAvatar")
 
         if (storedUserData) {
           const user = JSON.parse(storedUserData)
           setUserData({
             firstName: user.firstName || "John",
             lastName: user.lastName || "Doe",
+            username: user.username || "johndoe",
             email: user.email || "john@example.com",
             initials: `${user.firstName?.[0] || "J"}${user.lastName?.[0] || "D"}`,
+            avatar: storedAvatar || "/placeholder.svg?height=40&width=40",
           })
         }
       } catch (error) {
@@ -210,47 +209,36 @@ export function AppSidebar() {
         </SidebarContent>
         <SidebarFooter className="bg-gray-950 border-t border-gray-800">
           <SidebarMenu>
+            {/* Logout Button */}
             <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton className="mx-2 hover:bg-gray-800 rounded-lg data-[state=open]:bg-gray-800">
-                    <Avatar className="h-8 w-8 ring-2 ring-orange-500/30">
-                      <AvatarImage src="/placeholder.svg?height=32&width=32" />
-                      <AvatarFallback className="bg-gradient-to-br from-orange-500 to-amber-500 text-white font-bold text-sm">
-                        {userData.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col items-start">
-                      <span className="text-gray-200 font-medium text-sm">
-                        {userData.firstName} {userData.lastName}
-                      </span>
-                      <span className="text-xs text-gray-400">{userData.email}</span>
-                    </div>
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent side="right" align="end" className="w-56 bg-gray-900 border-gray-700">
-                  <DropdownMenuItem asChild className="text-gray-300 hover:bg-gray-800 hover:text-white cursor-pointer">
-                    <Link href="/profile" className="flex items-center gap-2">
-                      <User className="h-4 w-4" />
-                      <span>Profile</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="text-gray-300 hover:bg-gray-800 hover:text-white cursor-pointer">
-                    <Link href="/settings" className="flex items-center gap-2">
-                      <Settings className="h-4 w-4" />
-                      <span>Settings</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-gray-700" />
-                  <DropdownMenuItem
-                    onClick={() => setShowLogoutDialog(true)}
-                    className="text-red-400 hover:bg-red-500/10 hover:text-red-300 cursor-pointer"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    <span>Sign out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button
+                onClick={() => setShowLogoutDialog(true)}
+                variant="ghost"
+                className="mx-2 w-auto justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                disabled={isLoggingOut}
+              >
+                <LogOut className="h-4 w-4 mr-3" />
+                <span className="font-medium">{isLoggingOut ? "Signing out..." : "Logout"}</span>
+              </Button>
+            </SidebarMenuItem>
+
+            {/* Profile Link */}
+            <SidebarMenuItem>
+              <Link
+                href="/profile"
+                className="flex items-center gap-3 mx-2 p-3 hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                <Avatar className="h-10 w-10 ring-2 ring-orange-500/30">
+                  <AvatarImage src={userData.avatar || "/placeholder.svg"} />
+                  <AvatarFallback className="bg-gradient-to-br from-orange-500 to-amber-500 text-white font-bold text-sm">
+                    {userData.initials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col items-start">
+                  <span className="text-gray-200 font-medium text-sm">@{userData.username}</span>
+                  <span className="text-xs text-gray-400">{userData.email}</span>
+                </div>
+              </Link>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>

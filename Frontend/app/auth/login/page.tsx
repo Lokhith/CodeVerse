@@ -90,6 +90,7 @@ export default function LoginPage() {
         const userData = {
           firstName: "John",
           lastName: "Doe",
+          username: "johndoe_coder",
           email: formData.email,
         }
         localStorage.setItem("userData", JSON.stringify(userData))

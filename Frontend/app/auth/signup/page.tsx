@@ -17,6 +17,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 interface FormErrors {
   firstName?: string
   lastName?: string
+  username?: string
   email?: string
   password?: string
   confirmPassword?: string
@@ -33,6 +34,7 @@ export default function SignupPage() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -55,6 +57,15 @@ export default function SignupPage() {
       newErrors.lastName = "Last name is required"
     } else if (formData.lastName.trim().length < 2) {
       newErrors.lastName = "Last name must be at least 2 characters"
+    }
+
+    // Username validation
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required"
+    } else if (formData.username.trim().length < 3) {
+      newErrors.username = "Username must be at least 3 characters"
+    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username.trim())) {
+      newErrors.username = "Username can only contain letters, numbers, and underscores"
     }
 
     // Email validation
@@ -116,11 +127,18 @@ export default function SignupPage() {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      // Mock email existence check
+      // Mock email and username existence check
       const existingEmails = ["existing@example.com", "test@test.com"]
+      const existingUsernames = ["admin", "testuser", "johndoe123"]
 
       if (existingEmails.includes(formData.email)) {
         setErrors({ email: "An account with this email already exists" })
+        setIsLoading(false)
+        return
+      }
+
+      if (existingUsernames.includes(formData.username.toLowerCase())) {
+        setErrors({ username: "This username is already taken" })
         setIsLoading(false)
         return
       }
@@ -135,6 +153,7 @@ export default function SignupPage() {
       const userData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
+        username: formData.username,
         email: formData.email,
       }
       localStorage.setItem("userData", JSON.stringify(userData))
@@ -239,6 +258,29 @@ export default function SignupPage() {
                 )}
               </div>
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-gray-300 font-medium">
+                Username
+              </Label>
+              <Input
+                id="username"
+                name="username"
+                placeholder="johndoe_coder"
+                value={formData.username}
+                onChange={handleInputChange}
+                className={`bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-green-500 focus:ring-green-500/20 h-11 ${
+                  errors.username ? "border-red-500 focus:border-red-500" : ""
+                }`}
+              />
+              {errors.username && (
+                <p className="text-sm text-red-400 flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {errors.username}
+                </p>
+              )}
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="email" className="text-gray-300 font-medium">
                 Email
