@@ -174,12 +174,12 @@ export function AppSidebar() {
     <>
       <Sidebar className="bg-gray-950 border-r border-gray-800">
         <SidebarHeader className="border-b border-gray-800 bg-gray-900/50">
-          <div className="flex items-center gap-3 px-4 py-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 shadow-lg">
-              <Trophy className="h-5 w-5 text-white" />
+          <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-3 sm:py-4">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 shadow-lg">
+              <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
             </div>
             <div className="grid flex-1 text-left">
-              <span className="text-lg font-bold text-white">CodeVerse</span>
+              <span className="text-base sm:text-lg font-bold text-white">CodeVerse</span>
               <span className="text-xs text-gray-400">Unified Dashboard</span>
             </div>
             <Badge variant="secondary" className="bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs">
@@ -205,9 +205,9 @@ export function AppSidebar() {
                           : "text-gray-300 hover:bg-gray-800 hover:text-white"
                       }`}
                     >
-                      <Link href={item.url} className="flex items-center gap-3 px-3 py-2">
+                      <Link href={item.url} className="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2">
                         <item.icon className="h-4 w-4" />
-                        <span className="font-medium">{item.title}</span>
+                        <span className="font-medium text-sm sm:text-base">{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -262,9 +262,9 @@ export function AppSidebar() {
             <SidebarMenuItem>
               <Link
                 href="/profile"
-                className="flex items-center gap-3 mx-2 p-3 hover:bg-gray-800 rounded-lg transition-colors"
+                className="flex items-center gap-2 sm:gap-3 mx-2 p-2 sm:p-3 hover:bg-gray-800 rounded-lg transition-colors"
               >
-                <Avatar className="h-10 w-10 ring-2 ring-orange-500/30" key={`sidebar-${avatarKey}`}>
+                <Avatar className="h-8 w-8 sm:h-10 sm:w-10 ring-2 ring-orange-500/30" key={`sidebar-${avatarKey}`}>
                   {userData.avatar && userData.avatar.startsWith("data:") ? (
                     <img
                       src={userData.avatar || "/placeholder.svg"}
@@ -274,13 +274,13 @@ export function AppSidebar() {
                   ) : (
                     <AvatarImage src={userData.avatar || "/placeholder.svg"} alt="Profile picture" />
                   )}
-                  <AvatarFallback className="bg-gradient-to-br from-orange-500 to-amber-500 text-white font-bold text-sm">
+                  <AvatarFallback className="bg-gradient-to-br from-orange-500 to-amber-500 text-white font-bold text-xs sm:text-sm">
                     {userData.initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start">
-                  <span className="text-gray-200 font-medium text-sm">@{userData.username}</span>
-                  <span className="text-xs text-gray-400">{userData.email}</span>
+                  <span className="text-gray-200 font-medium text-xs sm:text-sm">@{userData.username}</span>
+                  <span className="text-xs text-gray-400 truncate max-w-[120px] sm:max-w-none">{userData.email}</span>
                 </div>
               </Link>
             </SidebarMenuItem>

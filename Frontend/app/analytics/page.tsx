@@ -73,7 +73,7 @@ const platformData = [
 
 // Calculate totals
 const totalProblems = platformData.reduce((sum, platform) => sum + platform.total, 0)
-const averageRating = 1781 // This could be calculated from platform ratings
+const averageRating = 1781
 const problemsToday = 5
 const weeklyGoal = 30
 const weeklyProgress = 23
@@ -88,7 +88,7 @@ const generateGitHubStyleHeatmapData = (year: number) => {
 
   for (let d = new Date(startDate); d <= today; d.setDate(d.getDate() + 1)) {
     const dateStr = d.toISOString().split("T")[0]
-    const total = Math.floor(Math.random() * 8) // 0-7 problems
+    const total = Math.floor(Math.random() * 8)
 
     data.push({
       date: dateStr,
@@ -134,7 +134,7 @@ const getHeatmapColor = (intensity: number) => {
   }
 }
 
-const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+const dayLabels = ["S", "M", "T", "W", "T", "F", "S"]
 const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 // Available years
@@ -180,7 +180,7 @@ export default function AnalyticsPage() {
   }
   maxStreak = Math.max(maxStreak, currentStreak)
 
-  // Group data by months
+  // Group data by months for mobile-friendly display
   const groupDataByMonths = () => {
     const monthGroups = []
     const uniqueMonths = []
@@ -303,72 +303,74 @@ export default function AnalyticsPage() {
         </header>
 
         <div className="flex-1 overflow-auto">
-          <div className="container mx-auto max-w-7xl p-4 lg:p-6 space-y-6">
+          <div className="w-full max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
             {/* Header */}
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-white flex items-center gap-3 mb-2">
-                <BarChart3 className="h-6 w-6 lg:h-8 lg:w-8 text-orange-500" />
+              <h1 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white flex items-center gap-2 mb-2">
+                <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500" />
                 Analytics
               </h1>
-              <p className="text-gray-400 text-base lg:text-lg">Detailed insights into your coding performance</p>
+              <p className="text-gray-400 text-xs sm:text-sm lg:text-base">
+                Detailed insights into your coding performance
+              </p>
             </div>
 
             {/* Top Metrics */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
               <Card className="card-professional card-professional-hover">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-300">Total Problems</CardTitle>
-                  <Code className="h-5 w-5 text-orange-500" />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-4">
+                  <CardTitle className="text-xs sm:text-sm font-medium text-gray-300">Total Problems</CardTitle>
+                  <Code className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-orange-500" />
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-white">{totalProblems}</div>
+                <CardContent className="p-3 sm:p-4 pt-0">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{totalProblems}</div>
                   <p className="text-xs text-green-400 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-3 w-3" />
+                    <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3" />
                     +12 this week
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="card-professional card-professional-hover">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-300">Average Rating</CardTitle>
-                  <Star className="h-5 w-5 text-amber-500" />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-4">
+                  <CardTitle className="text-xs sm:text-sm font-medium text-gray-300">Avg Rating</CardTitle>
+                  <Star className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-amber-500" />
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-white">{averageRating}</div>
+                <CardContent className="p-3 sm:p-4 pt-0">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{averageRating}</div>
                   <p className="text-xs text-amber-400 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-3 w-3" />
+                    <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3" />
                     +45 this month
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="card-professional card-professional-hover">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-300">Problems Today</CardTitle>
-                  <Target className="h-5 w-5 text-green-500" />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-4">
+                  <CardTitle className="text-xs sm:text-sm font-medium text-gray-300">Today</CardTitle>
+                  <Target className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-green-500" />
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-white">{problemsToday}</div>
+                <CardContent className="p-3 sm:p-4 pt-0">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{problemsToday}</div>
                   <p className="text-xs text-green-400 flex items-center gap-1 mt-1">
-                    <Activity className="h-3 w-3" />
-                    Great progress!
+                    <Activity className="h-2 w-2 sm:h-3 sm:w-3" />
+                    Great!
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="card-professional card-professional-hover">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-300">Weekly Goal</CardTitle>
-                  <Flame className="h-5 w-5 text-red-500" />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 sm:p-4">
+                  <CardTitle className="text-xs sm:text-sm font-medium text-gray-300">Weekly</CardTitle>
+                  <Flame className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-red-500" />
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-white">
+                <CardContent className="p-3 sm:p-4 pt-0">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
                     {weeklyProgress}/{weeklyGoal}
                   </div>
                   <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-3 w-3" />
-                    {Math.round((weeklyProgress / weeklyGoal) * 100)}% complete
+                    <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3" />
+                    {Math.round((weeklyProgress / weeklyGoal) * 100)}%
                   </p>
                 </CardContent>
               </Card>
@@ -376,86 +378,90 @@ export default function AnalyticsPage() {
 
             {/* Platform-wise Breakdown */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Award className="h-5 w-5 text-orange-500" />
-                Platform-wise Performance
+              <h2 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                <Award className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500" />
+                Platform Performance
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                 {platformData.map((platform) => (
                   <Card key={platform.name} className="card-professional">
-                    <CardHeader>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gray-800/50 border border-gray-700 flex items-center justify-center p-2">
+                    <CardHeader className="p-3 sm:p-4 lg:p-6">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gray-800/50 border border-gray-700 flex items-center justify-center p-1.5 sm:p-2">
                           <PlatformLogo platform={platform.logo} />
                         </div>
-                        <div>
-                          <CardTitle className="text-lg text-white">{platform.name}</CardTitle>
-                          <CardDescription className="text-gray-400">{platform.total} problems solved</CardDescription>
+                        <div className="min-w-0 flex-1">
+                          <CardTitle className="text-sm sm:text-base lg:text-lg text-white truncate">
+                            {platform.name}
+                          </CardTitle>
+                          <CardDescription className="text-xs sm:text-sm text-gray-400">
+                            {platform.total} solved
+                          </CardDescription>
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="p-3 sm:p-4 lg:p-6 pt-0 space-y-3 sm:space-y-4">
                       {/* Total Progress */}
-                      <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                      <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-gray-300">Total Progress</span>
-                          <span className="text-lg font-bold text-white">{platform.total}</span>
+                          <span className="text-xs sm:text-sm font-medium text-gray-300">Total</span>
+                          <span className="text-sm sm:text-base lg:text-lg font-bold text-white">{platform.total}</span>
                         </div>
-                        <Progress value={75} className="h-2 bg-gray-800 [&>div]:bg-blue-500" />
+                        <Progress value={75} className="h-1.5 sm:h-2 bg-gray-800 [&>div]:bg-blue-500" />
                       </div>
 
                       {/* Difficulty Breakdown */}
-                      <div className="space-y-3">
-                        <h4 className="text-sm font-medium text-gray-300">Difficulty Breakdown</h4>
+                      <div className="space-y-2 sm:space-y-3">
+                        <h4 className="text-xs sm:text-sm font-medium text-gray-300">Difficulty</h4>
 
                         {/* Easy */}
-                        <div className="space-y-2">
+                        <div className="space-y-1 sm:space-y-2">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                              <span className="text-sm text-gray-300">Easy</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-emerald-500" />
+                              <span className="text-xs sm:text-sm text-gray-300">Easy</span>
                             </div>
-                            <span className="text-sm text-gray-300">
+                            <span className="text-xs sm:text-sm text-gray-300">
                               {platform.easy.solved}/{platform.easy.total}
                             </span>
                           </div>
                           <Progress
                             value={(platform.easy.solved / platform.easy.total) * 100}
-                            className="h-2 bg-gray-800 [&>div]:bg-emerald-500"
+                            className="h-1 sm:h-1.5 bg-gray-800 [&>div]:bg-emerald-500"
                           />
                         </div>
 
                         {/* Medium */}
-                        <div className="space-y-2">
+                        <div className="space-y-1 sm:space-y-2">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                              <span className="text-sm text-gray-300">Medium</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
+                              <span className="text-xs sm:text-sm text-gray-300">Medium</span>
                             </div>
-                            <span className="text-sm text-gray-300">
+                            <span className="text-xs sm:text-sm text-gray-300">
                               {platform.medium.solved}/{platform.medium.total}
                             </span>
                           </div>
                           <Progress
                             value={(platform.medium.solved / platform.medium.total) * 100}
-                            className="h-2 bg-gray-800 [&>div]:bg-yellow-500"
+                            className="h-1 sm:h-1.5 bg-gray-800 [&>div]:bg-yellow-500"
                           />
                         </div>
 
                         {/* Hard */}
-                        <div className="space-y-2">
+                        <div className="space-y-1 sm:space-y-2">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 rounded-full bg-rose-500" />
-                              <span className="text-sm text-gray-300">Hard</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-rose-500" />
+                              <span className="text-xs sm:text-sm text-gray-300">Hard</span>
                             </div>
-                            <span className="text-sm text-gray-300">
+                            <span className="text-xs sm:text-sm text-gray-300">
                               {platform.hard.solved}/{platform.hard.total}
                             </span>
                           </div>
                           <Progress
                             value={(platform.hard.solved / platform.hard.total) * 100}
-                            className="h-2 bg-gray-800 [&>div]:bg-rose-500"
+                            className="h-1 sm:h-1.5 bg-gray-800 [&>div]:bg-rose-500"
                           />
                         </div>
                       </div>
@@ -467,20 +473,20 @@ export default function AnalyticsPage() {
 
             {/* Activity Heatmap */}
             <Card className="card-professional">
-              <CardHeader>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-lg font-semibold text-white">
-                      {totalSubmissions} submissions in the past year
+              <CardHeader className="p-3 sm:p-4 lg:p-6">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-white">
+                      {totalSubmissions} submissions this year
                     </h3>
-                    <Info className="h-4 w-4 text-gray-400" />
+                    <Info className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
                   </div>
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 text-sm text-gray-300">
-                    <span className="text-sm">Total active days: {activeDays}</span>
-                    <span className="text-sm">Max streak: {maxStreak}</span>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-300">
+                    <span>Active days: {activeDays}</span>
+                    <span>Max streak: {maxStreak}</span>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-900 border border-gray-700 text-white rounded-md text-sm hover:bg-gray-800 transition-colors">
+                        <button className="flex items-center gap-1 sm:gap-2 px-2 py-1 bg-gray-900 border border-gray-700 text-white rounded-md text-xs hover:bg-gray-800 transition-colors">
                           {selectedYear}
                           <ChevronDown className="h-3 w-3 opacity-50" />
                         </button>
@@ -490,7 +496,7 @@ export default function AnalyticsPage() {
                           <DropdownMenuItem
                             key={year}
                             onClick={() => setSelectedYear(year)}
-                            className="text-white hover:bg-gray-800 text-sm cursor-pointer"
+                            className="text-white hover:bg-gray-800 text-xs cursor-pointer"
                           >
                             {year}
                           </DropdownMenuItem>
@@ -500,32 +506,139 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="overflow-hidden">
-                <div className="space-y-4">
-                  {/* Heatmap Grid */}
-                  <div className="w-full">
+              <CardContent className="p-3 sm:p-4 lg:p-6 pt-0">
+                <div className="space-y-3 sm:space-y-4">
+                  {/* Mobile Heatmap - 4x3 Grid Layout */}
+                  <div className="block sm:hidden">
+                    <div className="space-y-3">
+                      {/* First Row - 4 months */}
+                      <div className="grid grid-cols-4 gap-2">
+                        {monthGroups.slice(-12, -8).map((monthGroup, monthIndex) => (
+                          <div key={`${monthGroup.year}-${monthGroup.month}`} className="space-y-1">
+                            <div className="text-xs text-gray-400 font-medium text-center">
+                              {monthGroup.monthName.slice(0, 3)}
+                            </div>
+                            <div className="flex flex-col gap-0.5">
+                              {monthGroup.weeks.slice(0, 4).map((week, weekIndex) => (
+                                <div key={weekIndex} className="flex gap-0.5">
+                                  {week.map((dayData, dayIndex) => {
+                                    if (!dayData) {
+                                      return <div key={dayIndex} className="w-1.5 h-1.5"></div>
+                                    }
+
+                                    const intensity = getIntensity(dayData.total)
+                                    const colorClass = getHeatmapColor(intensity)
+
+                                    return (
+                                      <div
+                                        key={dayIndex}
+                                        className={`w-1.5 h-1.5 rounded-sm cursor-pointer ${colorClass}`}
+                                        onClick={() => handleDayClick(dayData)}
+                                      />
+                                    )
+                                  })}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Second Row - 4 months */}
+                      <div className="grid grid-cols-4 gap-2">
+                        {monthGroups.slice(-8, -4).map((monthGroup, monthIndex) => (
+                          <div key={`${monthGroup.year}-${monthGroup.month}`} className="space-y-1">
+                            <div className="text-xs text-gray-400 font-medium text-center">
+                              {monthGroup.monthName.slice(0, 3)}
+                            </div>
+                            <div className="flex flex-col gap-0.5">
+                              {monthGroup.weeks.slice(0, 4).map((week, weekIndex) => (
+                                <div key={weekIndex} className="flex gap-0.5">
+                                  {week.map((dayData, dayIndex) => {
+                                    if (!dayData) {
+                                      return <div key={dayIndex} className="w-1.5 h-1.5"></div>
+                                    }
+
+                                    const intensity = getIntensity(dayData.total)
+                                    const colorClass = getHeatmapColor(intensity)
+
+                                    return (
+                                      <div
+                                        key={dayIndex}
+                                        className={`w-1.5 h-1.5 rounded-sm cursor-pointer ${colorClass}`}
+                                        onClick={() => handleDayClick(dayData)}
+                                      />
+                                    )
+                                  })}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Third Row - 4 months */}
+                      <div className="grid grid-cols-4 gap-2">
+                        {monthGroups.slice(-4).map((monthGroup, monthIndex) => (
+                          <div key={`${monthGroup.year}-${monthGroup.month}`} className="space-y-1">
+                            <div className="text-xs text-gray-400 font-medium text-center">
+                              {monthGroup.monthName.slice(0, 3)}
+                            </div>
+                            <div className="flex flex-col gap-0.5">
+                              {monthGroup.weeks.slice(0, 4).map((week, weekIndex) => (
+                                <div key={weekIndex} className="flex gap-0.5">
+                                  {week.map((dayData, dayIndex) => {
+                                    if (!dayData) {
+                                      return <div key={dayIndex} className="w-1.5 h-1.5"></div>
+                                    }
+
+                                    const intensity = getIntensity(dayData.total)
+                                    const colorClass = getHeatmapColor(intensity)
+
+                                    return (
+                                      <div
+                                        key={dayIndex}
+                                        className={`w-1.5 h-1.5 rounded-sm cursor-pointer ${colorClass}`}
+                                        onClick={() => handleDayClick(dayData)}
+                                      />
+                                    )
+                                  })}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Desktop Heatmap */}
+                  <div className="hidden sm:block">
                     <div className="flex gap-1">
                       {/* Day labels */}
                       <div className="flex flex-col gap-1 mr-2 flex-shrink-0">
                         {dayLabels.map((day, index) => (
-                          <div key={day} className="h-3 text-[10px] text-gray-400 flex items-center w-5">
-                            {index % 2 === 1 ? day.slice(0, 3) : ""}
+                          <div
+                            key={day}
+                            className="h-2.5 lg:h-3 text-[10px] text-gray-400 flex items-center w-3 lg:w-5"
+                          >
+                            {index % 2 === 1 ? day : ""}
                           </div>
                         ))}
                       </div>
 
                       {/* Scrollable grid container */}
-                      <div className="flex-1 overflow-x-auto -mx-6 px-6 scroll-container">
-                        <div className="flex gap-2 min-w-max pb-2">
+                      <div className="flex-1 overflow-x-auto">
+                        <div className="flex gap-1 lg:gap-2 min-w-max pb-2">
                           {monthGroups.map((monthGroup, monthIndex) => (
                             <div key={`${monthGroup.year}-${monthGroup.month}`} className="flex flex-col flex-shrink-0">
                               {/* Month weeks */}
-                              <div className="flex gap-1">
+                              <div className="flex gap-0.5 lg:gap-1">
                                 {monthGroup.weeks.map((week, weekIndex) => (
-                                  <div key={weekIndex} className="flex flex-col gap-1">
+                                  <div key={weekIndex} className="flex flex-col gap-0.5 lg:gap-1">
                                     {week.map((dayData, dayIndex) => {
                                       if (!dayData) {
-                                        return <div key={dayIndex} className="w-3 h-3"></div>
+                                        return <div key={dayIndex} className="w-2.5 h-2.5 lg:w-3 lg:h-3"></div>
                                       }
 
                                       const intensity = getIntensity(dayData.total)
@@ -534,7 +647,7 @@ export default function AnalyticsPage() {
                                       return (
                                         <div
                                           key={dayIndex}
-                                          className={`w-3 h-3 rounded-sm cursor-pointer transition-all hover:ring-1 hover:ring-gray-400 ${colorClass}`}
+                                          className={`w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-sm cursor-pointer transition-all hover:ring-1 hover:ring-gray-400 ${colorClass}`}
                                           title={`${dayData.date}: ${dayData.total} problems solved`}
                                           onClick={() => handleDayClick(dayData)}
                                         />
@@ -545,7 +658,7 @@ export default function AnalyticsPage() {
                               </div>
 
                               {/* Month label */}
-                              <div className="text-[10px] text-gray-400 text-center mt-1 px-1">
+                              <div className="text-[9px] lg:text-[10px] text-gray-400 text-center mt-1 px-1">
                                 {monthGroup.monthName}
                               </div>
                             </div>
@@ -556,17 +669,20 @@ export default function AnalyticsPage() {
                   </div>
 
                   {/* Legend */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
+                    <div className="flex items-center gap-1 sm:gap-2 text-xs text-gray-400">
                       <span>Less</span>
-                      <div className="flex gap-1">
+                      <div className="flex gap-0.5 sm:gap-1">
                         {[0, 1, 2, 3, 4].map((intensity) => (
-                          <div key={intensity} className={`w-3 h-3 rounded-sm ${getHeatmapColor(intensity)}`} />
+                          <div
+                            key={intensity}
+                            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 rounded-sm ${getHeatmapColor(intensity)}`}
+                          />
                         ))}
                       </div>
                       <span>More</span>
                     </div>
-                    <div className="text-xs text-gray-400">Learn how we count contributions</div>
+                    <div className="text-xs text-gray-400">Contributions</div>
                   </div>
                 </div>
               </CardContent>
@@ -577,41 +693,50 @@ export default function AnalyticsPage() {
 
       {/* Day Details Dialog */}
       <Dialog open={showDayDetails} onOpenChange={setShowDayDetails}>
-        <DialogContent className="bg-gray-900 border-gray-700 max-w-md">
+        <DialogContent className="bg-gray-900 border-gray-700 max-w-sm sm:max-w-md mx-4">
           <DialogHeader>
-            <DialogTitle className="text-white">{selectedDay && formatDate(selectedDay.date)}</DialogTitle>
-            <DialogDescription className="text-gray-400">Problems solved on this day</DialogDescription>
+            <DialogTitle className="text-white text-sm sm:text-base">
+              {selectedDay && formatDate(selectedDay.date)}
+            </DialogTitle>
+            <DialogDescription className="text-gray-400 text-xs sm:text-sm">
+              Problems solved on this day
+            </DialogDescription>
           </DialogHeader>
 
           {selectedDay && (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Total Problems */}
-              <div className="p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+              <div className="p-3 sm:p-4 bg-gray-800/50 rounded-lg border border-gray-700">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-300 font-medium">Total Problems</span>
-                  <span className="text-2xl font-bold text-white">{selectedDay.total}</span>
+                  <span className="text-gray-300 font-medium text-sm">Total Problems</span>
+                  <span className="text-xl sm:text-2xl font-bold text-white">{selectedDay.total}</span>
                 </div>
               </div>
 
               {/* Platform Breakdown */}
-              <div className="space-y-3">
-                <h4 className="text-sm font-medium text-gray-300 uppercase tracking-wider">Platform Breakdown</h4>
+              <div className="space-y-2 sm:space-y-3">
+                <h4 className="text-xs sm:text-sm font-medium text-gray-300 uppercase tracking-wider">
+                  Platform Breakdown
+                </h4>
                 {Object.entries(selectedDay.platforms).map(([platform, count]) => (
-                  <div key={platform} className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded bg-gray-800/50 border border-gray-700 flex items-center justify-center p-1">
+                  <div
+                    key={platform}
+                    className="flex items-center justify-between p-2 sm:p-3 bg-gray-800/30 rounded-lg"
+                  >
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 rounded bg-gray-800/50 border border-gray-700 flex items-center justify-center p-1">
                         <PlatformLogo platform={platform} />
                       </div>
-                      <span className="text-gray-300 font-medium">{platform}</span>
+                      <span className="text-gray-300 font-medium text-xs sm:text-sm">{platform}</span>
                     </div>
                     <Badge
-                      className={`pointer-events-none ${
+                      className={`pointer-events-none text-xs ${
                         count > 0
                           ? "bg-green-500/20 text-green-400 border-green-500/30"
                           : "bg-gray-700 text-gray-400 border-gray-600"
                       }`}
                     >
-                      {count} {count === 1 ? "problem" : "problems"}
+                      {count}
                     </Badge>
                   </div>
                 ))}
@@ -619,10 +744,10 @@ export default function AnalyticsPage() {
 
               {/* Activity Summary */}
               {selectedDay.total > 0 && (
-                <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+                <div className="p-3 sm:p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Activity className="h-4 w-4 text-green-500" />
-                    <span className="text-green-400 font-medium">
+                    <Activity className="h-3 w-3 sm:h-4 sm:w-4 text-green-500" />
+                    <span className="text-green-400 font-medium text-xs sm:text-sm">
                       Great job! You solved {selectedDay.total} {selectedDay.total === 1 ? "problem" : "problems"} on
                       this day.
                     </span>
@@ -631,10 +756,10 @@ export default function AnalyticsPage() {
               )}
 
               {selectedDay.total === 0 && (
-                <div className="p-4 bg-gray-700/30 border border-gray-600 rounded-lg">
+                <div className="p-3 sm:p-4 bg-gray-700/30 border border-gray-600 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-400">No problems solved on this day.</span>
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
+                    <span className="text-gray-400 text-xs sm:text-sm">No problems solved on this day.</span>
                   </div>
                 </div>
               )}

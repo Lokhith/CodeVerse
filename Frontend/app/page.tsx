@@ -107,7 +107,7 @@ export default function LandingPage() {
           </div>
           <span className="ml-3 text-xl font-bold text-white">CodeVerse</span>
         </Link>
-        <nav className="ml-auto flex gap-6">
+        <nav className="ml-auto hidden sm:flex gap-4 lg:gap-6">
           <Link className="text-sm font-medium text-gray-300 hover:text-orange-500 transition-colors" href="#features">
             Features
           </Link>
@@ -136,19 +136,19 @@ export default function LandingPage() {
                   <Star className="h-4 w-4 mr-2" />
                   Unified Coding Dashboard
                 </Badge>
-                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-white">
+                <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white">
                   Unify Your <span className="professional-gradient">Coding Journey</span>
                 </h1>
-                <p className="mx-auto max-w-[700px] text-gray-400 text-lg md:text-xl leading-relaxed">
+                <p className="mx-auto max-w-[90%] sm:max-w-[700px] text-gray-400 text-base sm:text-lg md:text-xl leading-relaxed px-4 sm:px-0">
                   Connect all your coding platforms in one place. Track progress, analyze performance, and showcase your
                   competitive programming achievements across LeetCode, CodeChef, HackerRank, and more.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold px-8 py-3 h-12 shadow-xl"
+                  className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold px-6 sm:px-8 py-3 h-12 shadow-xl w-full sm:w-auto"
                 >
                   <Link href="/auth/signup">
                     Get Started Free
@@ -159,7 +159,7 @@ export default function LandingPage() {
                   variant="outline"
                   size="lg"
                   asChild
-                  className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white px-8 py-3 h-12"
+                  className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white px-6 sm:px-8 py-3 h-12 w-full sm:w-auto"
                 >
                   <Link href="/auth/login">Sign In</Link>
                 </Button>

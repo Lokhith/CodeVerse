@@ -142,122 +142,16 @@ export default function PlatformsPage() {
         </header>
         <div className="flex flex-1 flex-col gap-6 sm:gap-8 p-4 sm:p-6 bg-gray-950">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3 mb-2">
-              <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" />
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3 mb-2">
+              <Globe className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-orange-500" />
               Platform Integration
             </h1>
-            <p className="text-gray-400 text-base sm:text-lg">
+            <p className="text-gray-400 text-sm sm:text-base lg:text-lg">
               Connect your coding platform accounts to unify your progress
             </p>
           </div>
 
-          <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
-            {platformData.map((platform) => (
-              <Card key={platform.id} className="card-professional card-professional-hover">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-lg bg-gray-800/50 border border-gray-700 flex items-center justify-center p-1.5">
-                        <platform.logo />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">{platform.name}</CardTitle>
-                        <CardDescription className="text-gray-400">{platform.description}</CardDescription>
-                      </div>
-                    </div>
-                    {platform.connected ? (
-                      <CheckCircle className="h-6 w-6 text-green-500" />
-                    ) : (
-                      <XCircle className="h-6 w-6 text-gray-500" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {platform.connected ? (
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-800">
-                        <span className="text-sm text-gray-400 font-medium">Username:</span>
-                        <Badge className="bg-gray-700 text-gray-200 border-gray-600">{platform.username}</Badge>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-800">
-                        <span className="text-sm text-gray-400 font-medium">Last sync:</span>
-                        <span className="text-sm text-green-400 flex items-center gap-1 font-medium">
-                          <Activity className="h-3 w-3" />
-                          {platform.lastSync}
-                        </span>
-                      </div>
-                      <div className="flex gap-3">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleSync(platform.id)}
-                          className="flex-1 border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"
-                        >
-                          <RefreshCw className="h-4 w-4 mr-2" />
-                          Sync Now
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => handleDisconnect(platform.id)}
-                          className="bg-red-600 hover:bg-red-700 border-red-600"
-                        >
-                          Disconnect
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {editingPlatform === platform.id ? (
-                        <div className="space-y-3">
-                          <Label htmlFor={`username-${platform.id}`} className="text-gray-300 font-medium">
-                            Username
-                          </Label>
-                          <Input
-                            id={`username-${platform.id}`}
-                            placeholder={`Enter your ${platform.name} username`}
-                            value={newUsername}
-                            onChange={(e) => setNewUsername(e.target.value)}
-                            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 focus:ring-orange-500/20"
-                          />
-                          <div className="flex gap-3">
-                            <Button
-                              size="sm"
-                              onClick={() => handleConnect(platform.id)}
-                              disabled={!newUsername.trim()}
-                              className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
-                            >
-                              Connect
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                setEditingPlatform(null)
-                                setNewUsername("")
-                              }}
-                              className="border-gray-700 text-gray-300 hover:bg-gray-800"
-                            >
-                              Cancel
-                            </Button>
-                          </div>
-                        </div>
-                      ) : (
-                        <Button
-                          onClick={() => setEditingPlatform(platform.id)}
-                          className="w-full font-semibold py-3 shadow-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white"
-                        >
-                          <LinkIcon className="h-4 w-4 mr-2" />
-                          Connect {platform.name}
-                        </Button>
-                      )}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
+          {/* Integration Status - Moved to top */}
           <Card className="card-professional">
             <CardHeader>
               <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
@@ -267,34 +161,148 @@ export default function PlatformsPage() {
               <CardDescription className="text-gray-400">Overview of your connected platforms</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                  <div className="text-2xl font-bold text-green-400">
+              <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+                <div className="text-center p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                  <div className="text-xl sm:text-2xl font-bold text-green-400">
                     {platformData.filter((p) => p.connected).length}
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">Connected</p>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Connected</p>
                 </div>
-                <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                  <div className="text-2xl font-bold text-gray-400">
+                <div className="text-center p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                  <div className="text-xl sm:text-2xl font-bold text-gray-400">
                     {platformData.filter((p) => !p.connected).length}
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">Not Connected</p>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Not Connected</p>
                 </div>
-                <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                  <div className="text-2xl font-bold text-blue-400">
+                <div className="text-center p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-400">
                     {platformData.filter((p) => p.lastSync.includes("hour") || p.lastSync === "Just now").length}
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">Recently Synced</p>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Recently Synced</p>
                 </div>
-                <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                  <div className="text-2xl font-bold text-orange-400">
+                <div className="text-center p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                  <div className="text-xl sm:text-2xl font-bold text-orange-400">
                     {Math.round((platformData.filter((p) => p.connected).length / platformData.length) * 100)}%
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">Integration Rate</p>
+                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Integration Rate</p>
                 </div>
               </div>
             </CardContent>
           </Card>
+
+          {/* Platform Cards Section */}
+          <div>
+            <h2 className="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <LinkIcon className="h-5 w-5 text-orange-500" />
+              Available Platforms
+            </h2>
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
+              {platformData.map((platform) => (
+                <Card key={platform.id} className="card-professional card-professional-hover">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-8 h-8 rounded-lg bg-gray-800/50 border border-gray-700 flex items-center justify-center p-1.5">
+                          <platform.logo />
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl text-white">{platform.name}</CardTitle>
+                          <CardDescription className="text-gray-400">{platform.description}</CardDescription>
+                        </div>
+                      </div>
+                      {platform.connected ? (
+                        <CheckCircle className="h-6 w-6 text-green-500" />
+                      ) : (
+                        <XCircle className="h-6 w-6 text-gray-500" />
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {platform.connected ? (
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-800">
+                          <span className="text-sm text-gray-400 font-medium">Username:</span>
+                          <Badge className="bg-gray-700 text-gray-200 border-gray-600">{platform.username}</Badge>
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-800">
+                          <span className="text-sm text-gray-400 font-medium">Last sync:</span>
+                          <span className="text-sm text-green-400 flex items-center gap-1 font-medium">
+                            <Activity className="h-3 w-3" />
+                            {platform.lastSync}
+                          </span>
+                        </div>
+                        <div className="flex gap-3">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleSync(platform.id)}
+                            className="flex-1 border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"
+                          >
+                            <RefreshCw className="h-4 w-4 mr-2" />
+                            Sync Now
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDisconnect(platform.id)}
+                            className="bg-red-600 hover:bg-red-700 border-red-600"
+                          >
+                            Disconnect
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {editingPlatform === platform.id ? (
+                          <div className="space-y-3">
+                            <Label htmlFor={`username-${platform.id}`} className="text-gray-300 font-medium">
+                              Username
+                            </Label>
+                            <Input
+                              id={`username-${platform.id}`}
+                              placeholder={`Enter your ${platform.name} username`}
+                              value={newUsername}
+                              onChange={(e) => setNewUsername(e.target.value)}
+                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 focus:ring-orange-500/20"
+                            />
+                            <div className="flex gap-3">
+                              <Button
+                                size="sm"
+                                onClick={() => handleConnect(platform.id)}
+                                disabled={!newUsername.trim()}
+                                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
+                              >
+                                Connect
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setEditingPlatform(null)
+                                  setNewUsername("")
+                                }}
+                                className="border-gray-700 text-gray-300 hover:bg-gray-800"
+                              >
+                                Cancel
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <Button
+                            onClick={() => setEditingPlatform(platform.id)}
+                            className="w-full font-semibold py-3 shadow-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white"
+                          >
+                            <LinkIcon className="h-4 w-4 mr-2" />
+                            Connect {platform.name}
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </SidebarInset>
     </SidebarProvider>

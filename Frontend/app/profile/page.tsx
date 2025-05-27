@@ -661,22 +661,25 @@ export default function ProfilePage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl lg:text-3xl font-bold text-white flex items-center gap-3 mb-2">
-                  <User className="h-6 w-6 lg:h-8 lg:w-8 text-orange-500" />
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3 mb-2">
+                  <User className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-orange-500" />
                   Profile
                 </h1>
-                <p className="text-gray-400 text-base lg:text-lg">Manage your profile and coding journey</p>
+                <p className="text-gray-400 text-sm sm:text-base lg:text-lg">Manage your profile and coding journey</p>
               </div>
 
               {!isEditing && (
-                <Button onClick={() => setIsEditing(true)} className="bg-orange-500 hover:bg-orange-600 text-white">
+                <Button
+                  onClick={() => setIsEditing(true)}
+                  className="bg-orange-500 hover:bg-orange-600 text-white w-full sm:w-auto"
+                >
                   <Edit3 className="h-4 w-4 mr-2" />
                   Edit Profile
                 </Button>
               )}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
               {/* Basic Info */}
               <Card className="lg:col-span-2 card-professional">
                 <CardHeader>
@@ -685,9 +688,12 @@ export default function ProfilePage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {/* Avatar and Name */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                  <div className="flex flex-col items-center sm:items-start sm:flex-row gap-4 sm:gap-6">
                     <div className="relative">
-                      <Avatar className="h-24 w-24 ring-4 ring-orange-500/30" key={`profile-${avatarKey}`}>
+                      <Avatar
+                        className="h-20 w-20 sm:h-24 sm:w-24 ring-4 ring-orange-500/30"
+                        key={`profile-${avatarKey}`}
+                      >
                         {profileData.avatar && profileData.avatar.startsWith("data:") ? (
                           <img
                             src={profileData.avatar || "/placeholder.svg"}
@@ -933,12 +939,12 @@ export default function ProfilePage() {
                 <CardDescription className="text-gray-400">Your coding consistency and achievements</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="text-center p-6 bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-lg">
-                    <Flame className="h-12 w-12 text-red-500 mx-auto mb-4" />
-                    <div className="text-3xl font-bold text-white mb-2">{currentStreak}</div>
-                    <p className="text-red-400 font-medium">Current Streak</p>
-                    <p className="text-gray-400 text-sm mt-1">Days in a row</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="text-center p-4 sm:p-6 bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-lg">
+                    <Flame className="h-10 w-10 sm:h-12 sm:w-12 text-red-500 mx-auto mb-3 sm:mb-4" />
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-2">{currentStreak}</div>
+                    <p className="text-red-400 font-medium text-sm sm:text-base">Current Streak</p>
+                    <p className="text-gray-400 text-xs sm:text-sm mt-1">Days in a row</p>
                   </div>
                   <div className="text-center p-6 bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-lg">
                     <Trophy className="h-12 w-12 text-purple-500 mx-auto mb-4" />
@@ -957,7 +963,7 @@ export default function ProfilePage() {
                 <CardDescription className="text-gray-400">Your connected coding platform accounts</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {connectedPlatforms.map((platform) => (
                     <div
                       key={platform.name}

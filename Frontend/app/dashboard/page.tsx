@@ -276,31 +276,33 @@ export default function DashboardPage() {
         <div className="flex-1 overflow-auto">
           <div className="container mx-auto max-w-7xl p-4 lg:p-6 space-y-6">
             {/* Welcome Section with Rank */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col gap-4">
               <div className="min-w-0">
-                <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">Welcome back, {userName}!</h1>
-                <div className="flex items-center gap-3">
-                  <p className="text-gray-400">Here's your coding journey overview</p>
-                  <Badge className={`${currentRank.color} bg-gray-800/50 border-gray-700 flex items-center gap-1`}>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Welcome back, {userName}!</h1>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                  <p className="text-gray-400 text-sm sm:text-base">Here's your coding journey overview</p>
+                  <Badge
+                    className={`${currentRank.color} bg-gray-800/50 border-gray-700 flex items-center gap-1 w-fit`}
+                  >
                     <currentRank.icon />
                     {currentRank.title}
                   </Badge>
                 </div>
               </div>
-              <div className="flex-shrink-0 flex items-center gap-3">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-lg">
-                  <Flame className="h-4 w-4" />
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 sm:px-4 py-2 rounded-full font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg">
+                  <Flame className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span>15 day streak</span>
                 </div>
-                <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-lg">
-                  <Star className="h-4 w-4" />
+                <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 sm:px-4 py-2 rounded-full font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg">
+                  <Star className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span>{currentXP.toLocaleString()} XP</span>
                 </div>
               </div>
             </div>
 
             {/* Stats Overview */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <Card className="card-professional card-professional-hover">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-gray-300">Total Solved</CardTitle>
@@ -356,7 +358,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
               {/* Platform Stats */}
               <Card className="lg:col-span-2 card-professional">
                 <CardHeader>
@@ -371,18 +373,18 @@ export default function DashboardPage() {
                 <CardContent className="space-y-6">
                   {platformStats.map((platform) => (
                     <div key={platform.name} className="space-y-3">
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                         <div className="flex items-center gap-3 min-w-0 flex-1">
-                          <div className="w-8 h-8 rounded-lg bg-gray-800/50 border border-gray-700 flex items-center justify-center p-1.5 flex-shrink-0">
+                          <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-gray-800/50 border border-gray-700 flex items-center justify-center p-1 sm:p-1.5 flex-shrink-0">
                             <PlatformLogo platform={platform.name} />
                           </div>
-                          <p className="text-base font-semibold text-white truncate">{platform.name}</p>
+                          <p className="text-sm sm:text-base font-semibold text-white truncate">{platform.name}</p>
                         </div>
-                        <div className="flex items-center gap-3 flex-shrink-0">
-                          <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                          <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                             {platform.rank}
                           </div>
-                          <span className="text-base font-semibold text-orange-400">{platform.rating}</span>
+                          <span className="text-sm sm:text-base font-semibold text-orange-400">{platform.rating}</span>
                         </div>
                       </div>
                       <div className="flex items-center justify-between text-sm">
@@ -530,7 +532,7 @@ export default function DashboardPage() {
                 <CardDescription className="text-gray-400">Your latest coding submissions</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3 sm:gap-4">
                   {recentActivity.map((activity, index) => (
                     <div key={index} className="p-4 rounded-lg bg-gray-900/50 border border-gray-800 space-y-3">
                       <div className="flex items-center gap-3">

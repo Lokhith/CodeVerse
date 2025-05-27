@@ -15,7 +15,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Award, Target } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Award, Target, ChevronDown } from "lucide-react"
 
 // Rank system with XP ranges
 const rankSystem = [
@@ -28,7 +29,7 @@ const rankSystem = [
     textColor: "text-amber-600",
     bgColor: "bg-amber-600/10",
     borderColor: "border-amber-600/30",
-    icon: () => <span className="text-2xl">🥉</span>,
+    icon: () => <span className="text-lg sm:text-xl">🥉</span>,
     description: "Starting your coding journey",
     gradient: "from-amber-700 to-amber-500",
   },
@@ -41,7 +42,7 @@ const rankSystem = [
     textColor: "text-gray-400",
     bgColor: "bg-gray-400/10",
     borderColor: "border-gray-400/30",
-    icon: () => <span className="text-2xl">🥈</span>,
+    icon: () => <span className="text-lg sm:text-xl">🥈</span>,
     description: "Building coding fundamentals",
     gradient: "from-gray-500 to-gray-300",
   },
@@ -54,7 +55,7 @@ const rankSystem = [
     textColor: "text-yellow-500",
     bgColor: "bg-yellow-500/10",
     borderColor: "border-yellow-500/30",
-    icon: () => <span className="text-2xl">🥇</span>,
+    icon: () => <span className="text-lg sm:text-xl">🥇</span>,
     description: "Solid problem-solving skills",
     gradient: "from-yellow-600 to-yellow-400",
   },
@@ -67,7 +68,7 @@ const rankSystem = [
     textColor: "text-cyan-400",
     bgColor: "bg-cyan-400/10",
     borderColor: "border-cyan-400/30",
-    icon: () => <span className="text-2xl">💎</span>,
+    icon: () => <span className="text-lg sm:text-xl">💎</span>,
     description: "Advanced coding expertise",
     gradient: "from-cyan-500 to-cyan-300",
   },
@@ -80,7 +81,7 @@ const rankSystem = [
     textColor: "text-blue-400",
     bgColor: "bg-blue-400/10",
     borderColor: "border-blue-400/30",
-    icon: () => <span className="text-2xl">💠</span>,
+    icon: () => <span className="text-lg sm:text-xl">💠</span>,
     description: "Exceptional problem solver",
     gradient: "from-blue-500 to-blue-300",
   },
@@ -93,7 +94,7 @@ const rankSystem = [
     textColor: "text-purple-500",
     bgColor: "bg-purple-500/10",
     borderColor: "border-purple-500/30",
-    icon: () => <span className="text-2xl">⚡</span>,
+    icon: () => <span className="text-lg sm:text-xl">⚡</span>,
     description: "Elite coding mastery",
     gradient: "from-purple-600 to-purple-400",
   },
@@ -106,7 +107,7 @@ const rankSystem = [
     textColor: "text-purple-600",
     bgColor: "bg-purple-600/10",
     borderColor: "border-purple-600/30",
-    icon: () => <span className="text-2xl">🔥</span>,
+    icon: () => <span className="text-lg sm:text-xl">🔥</span>,
     description: "Superior competitive programmer",
     gradient: "from-purple-700 to-purple-500",
   },
@@ -119,7 +120,7 @@ const rankSystem = [
     textColor: "text-purple-700",
     bgColor: "bg-purple-700/10",
     borderColor: "border-purple-700/30",
-    icon: () => <span className="text-2xl">🎯</span>,
+    icon: () => <span className="text-lg sm:text-xl">🎯</span>,
     description: "Master of algorithms",
     gradient: "from-purple-800 to-purple-600",
   },
@@ -132,7 +133,7 @@ const rankSystem = [
     textColor: "text-red-500",
     bgColor: "bg-red-500/10",
     borderColor: "border-red-500/30",
-    icon: () => <span className="text-2xl">🛡️</span>,
+    icon: () => <span className="text-lg sm:text-xl">🛡️</span>,
     description: "Coding battlefield champion",
     gradient: "from-red-600 to-red-400",
   },
@@ -145,7 +146,7 @@ const rankSystem = [
     textColor: "text-orange-500",
     bgColor: "bg-orange-500/10",
     borderColor: "border-orange-500/30",
-    icon: () => <span className="text-2xl">👑</span>,
+    icon: () => <span className="text-lg sm:text-xl">👑</span>,
     description: "Legendary coding prowess",
     gradient: "from-orange-600 to-orange-400",
   },
@@ -158,7 +159,7 @@ const rankSystem = [
     textColor: "text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text",
     bgColor: "bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-indigo-500/10",
     borderColor: "border-pink-500/30",
-    icon: () => <span className="text-2xl">✨</span>,
+    icon: () => <span className="text-lg sm:text-xl">✨</span>,
     description: "The ultimate coding legend",
     gradient: "from-pink-500 via-purple-500 to-indigo-500",
   },
@@ -184,7 +185,9 @@ const getNextRank = (currentIndex: number) => {
 
 export default function BadgesPage() {
   const [userName, setUserName] = useState("John")
-  const [currentXP, setCurrentXP] = useState(2750) // Example XP - this would come from user data
+  const [currentXP, setCurrentXP] = useState(2750)
+  const [selectedRank, setSelectedRank] = useState<any>(null)
+  const [showRankDetails, setShowRankDetails] = useState(false)
 
   useEffect(() => {
     // Get user data from localStorage
@@ -206,6 +209,11 @@ export default function BadgesPage() {
   const { rank: currentRank, index: currentIndex } = getCurrentRank(currentXP)
   const nextRank = getNextRank(currentIndex)
   const progressToNext = nextRank ? ((currentXP - currentRank.minXP) / (nextRank.minXP - currentRank.minXP)) * 100 : 100
+
+  const handleRankClick = (rank: any) => {
+    setSelectedRank(rank)
+    setShowRankDetails(true)
+  }
 
   return (
     <SidebarProvider>
@@ -230,63 +238,71 @@ export default function BadgesPage() {
         </header>
 
         <div className="flex-1 overflow-auto">
-          <div className="container mx-auto max-w-7xl p-4 lg:p-6 space-y-6">
+          <div className="w-full max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
             {/* Header with Current Rank */}
-            <div className="text-center space-y-4">
-              <h1 className="text-2xl lg:text-3xl font-bold text-white flex items-center justify-center gap-3 mb-2">
-                <Award className="h-6 w-6 lg:h-8 lg:w-8 text-orange-500" />
-                Rank & Badges System
+            <div className="text-center space-y-3 sm:space-y-4">
+              <h1 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white flex items-center justify-center gap-2 mb-2">
+                <Award className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500" />
+                Rank & Badges
               </h1>
-              <p className="text-gray-400 text-base lg:text-lg">Track your coding journey through our ranking system</p>
-
-              {/* Current Rank Display */}
-              <Card className="card-professional max-w-2xl mx-auto">
-                <CardContent className="p-6">
-                  <div className="flex flex-col items-center space-y-4">
-                    <div
-                      className={`w-20 h-20 rounded-full ${currentRank.bgColor} border-2 ${currentRank.borderColor} flex items-center justify-center`}
-                    >
-                      <currentRank.icon />
-                    </div>
-                    <div className="text-center space-y-2">
-                      <h2 className={`text-2xl font-bold ${currentRank.textColor}`}>{currentRank.title}</h2>
-                      <p className="text-gray-400">{currentRank.description}</p>
-                      <div className="flex items-center gap-2 justify-center">
-                        <span className="text-3xl font-bold text-white">{currentXP.toLocaleString()}</span>
-                        <span className="text-gray-400">XP</span>
-                      </div>
-                    </div>
-
-                    {/* Progress to Next Rank */}
-                    {nextRank && (
-                      <div className="w-full space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Progress to {nextRank.title}</span>
-                          <span className="text-gray-300">
-                            {currentXP.toLocaleString()} / {nextRank.minXP.toLocaleString()} XP
-                          </span>
-                        </div>
-                        <Progress value={progressToNext} className="h-3 bg-gray-800" />
-                        <p className="text-xs text-gray-500 text-center">
-                          {(nextRank.minXP - currentXP).toLocaleString()} XP needed for next rank
-                        </p>
-                      </div>
-                    )}
-
-                    {currentIndex === rankSystem.length - 1 && (
-                      <Badge className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white border-0 px-4 py-2">
-                        🎉 Maximum Rank Achieved! 🎉
-                      </Badge>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <p className="text-gray-400 text-xs sm:text-sm lg:text-base">
+                Track your coding journey through our ranking system
+              </p>
             </div>
 
-            {/* All Ranks Grid */}
+            {/* Current Rank Display */}
+            <Card className="card-professional max-w-full sm:max-w-2xl mx-auto">
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex flex-col items-center space-y-3 sm:space-y-4">
+                  <div
+                    className={`w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full ${currentRank.bgColor} border-2 ${currentRank.borderColor} flex items-center justify-center`}
+                  >
+                    <currentRank.icon />
+                  </div>
+                  <div className="text-center space-y-1 sm:space-y-2">
+                    <h2 className={`text-lg sm:text-xl lg:text-2xl font-bold ${currentRank.textColor}`}>
+                      {currentRank.title}
+                    </h2>
+                    <p className="text-gray-400 text-xs sm:text-sm lg:text-base">{currentRank.description}</p>
+                    <div className="flex items-center gap-1 sm:gap-2 justify-center">
+                      <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
+                        {currentXP.toLocaleString()}
+                      </span>
+                      <span className="text-gray-400 text-xs sm:text-sm">XP</span>
+                    </div>
+                  </div>
+
+                  {/* Progress to Next Rank */}
+                  {nextRank && (
+                    <div className="w-full space-y-2">
+                      <div className="flex justify-between text-xs sm:text-sm">
+                        <span className="text-gray-400">Progress to {nextRank.title}</span>
+                        <span className="text-gray-300">
+                          {currentXP.toLocaleString()} / {nextRank.minXP.toLocaleString()} XP
+                        </span>
+                      </div>
+                      <Progress value={progressToNext} className="h-2 sm:h-3 bg-gray-800" />
+                      <p className="text-xs text-gray-500 text-center">
+                        {(nextRank.minXP - currentXP).toLocaleString()} XP needed for next rank
+                      </p>
+                    </div>
+                  )}
+
+                  {currentIndex === rankSystem.length - 1 && (
+                    <Badge className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white border-0 px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm">
+                      🎉 Maximum Rank Achieved! 🎉
+                    </Badge>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* All Ranks Grid - Rectangular Badges */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-6 text-center">All Ranks & Badges</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <h2 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-4 sm:mb-6 text-center">
+                All Ranks & Badges
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
                 {rankSystem.map((rank, index) => {
                   const isCurrentRank = index === currentIndex
                   const isUnlocked = currentXP >= rank.minXP
@@ -295,58 +311,86 @@ export default function BadgesPage() {
                   return (
                     <Card
                       key={rank.title}
-                      className={`card-professional transition-all duration-300 ${
+                      className={`card-professional transition-all duration-300 cursor-pointer hover:scale-[1.02] ${
                         isCurrentRank
                           ? `ring-2 ring-orange-500 ${rank.bgColor} border-orange-500/50`
                           : isUnlocked
                             ? "card-professional-hover"
                             : "opacity-60"
                       }`}
+                      onClick={() => handleRankClick(rank)}
                     >
-                      <CardHeader className="text-center pb-3">
-                        <div className="flex justify-center mb-3">
+                      <CardContent className="p-3 sm:p-4">
+                        <div className="flex items-center gap-3 sm:gap-4">
+                          {/* Icon */}
                           <div
-                            className={`w-16 h-16 rounded-full ${rank.bgColor} border-2 ${rank.borderColor} flex items-center justify-center ${
+                            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg ${rank.bgColor} border ${rank.borderColor} flex items-center justify-center flex-shrink-0 ${
                               !isUnlocked ? "grayscale" : ""
                             }`}
                           >
                             <rank.icon />
                           </div>
-                        </div>
-                        <CardTitle className={`text-lg ${isUnlocked ? rank.textColor : "text-gray-500"}`}>
-                          {rank.title}
-                        </CardTitle>
-                        <CardDescription className="text-gray-400 text-sm">{rank.xpRange} XP</CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-center space-y-3">
-                        <p className="text-xs text-gray-400">{rank.description}</p>
 
-                        {/* Status Badges */}
-                        <div className="flex justify-center">
-                          {isCurrentRank && (
-                            <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs">
-                              Current Rank
-                            </Badge>
-                          )}
-                          {isNextRank && !isUnlocked && (
-                            <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs">Next Rank</Badge>
-                          )}
-                          {isUnlocked && !isCurrentRank && index < currentIndex && (
-                            <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs">
-                              Unlocked
-                            </Badge>
-                          )}
-                          {!isUnlocked && !isNextRank && (
-                            <Badge className="bg-gray-700 text-gray-400 border-gray-600 text-xs">Locked</Badge>
-                          )}
-                        </div>
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-1">
+                              <h3
+                                className={`text-sm sm:text-base font-bold ${isUnlocked ? rank.textColor : "text-gray-500"} truncate`}
+                              >
+                                {rank.title}
+                              </h3>
+                              <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 flex-shrink-0" />
+                            </div>
 
-                        {/* XP Requirements */}
-                        {!isUnlocked && (
-                          <div className="text-xs text-gray-500">
-                            {(rank.minXP - currentXP).toLocaleString()} XP needed
+                            <div className="flex items-center justify-between">
+                              <p className="text-xs sm:text-sm text-gray-400">{rank.xpRange}</p>
+
+                              {/* Status Badge */}
+                              <div className="flex-shrink-0">
+                                {isCurrentRank && (
+                                  <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs px-2 py-0.5">
+                                    Current
+                                  </Badge>
+                                )}
+                                {isNextRank && !isUnlocked && (
+                                  <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs px-2 py-0.5">
+                                    Next
+                                  </Badge>
+                                )}
+                                {isUnlocked && !isCurrentRank && index < currentIndex && (
+                                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs px-2 py-0.5">
+                                    Unlocked
+                                  </Badge>
+                                )}
+                                {!isUnlocked && !isNextRank && (
+                                  <Badge className="bg-gray-700 text-gray-400 border-gray-600 text-xs px-2 py-0.5">
+                                    Locked
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* XP Progress for current/next rank */}
+                            {(isCurrentRank || isNextRank) && (
+                              <div className="mt-2">
+                                {isCurrentRank && nextRank && (
+                                  <div className="space-y-1">
+                                    <div className="flex justify-between text-xs">
+                                      <span className="text-gray-400">Progress</span>
+                                      <span className="text-gray-300">{Math.round(progressToNext)}%</span>
+                                    </div>
+                                    <Progress value={progressToNext} className="h-1.5 bg-gray-800" />
+                                  </div>
+                                )}
+                                {isNextRank && (
+                                  <div className="text-xs text-orange-400 mt-1">
+                                    {(rank.minXP - currentXP).toLocaleString()} XP needed
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
-                        )}
+                        </div>
                       </CardContent>
                     </Card>
                   )
@@ -356,32 +400,32 @@ export default function BadgesPage() {
 
             {/* XP Sources Info */}
             <Card className="card-professional">
-              <CardHeader>
-                <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
-                  <Target className="h-5 w-5 text-orange-500" />
+              <CardHeader className="p-3 sm:p-4 lg:p-6">
+                <CardTitle className="text-base sm:text-lg lg:text-xl font-bold text-white flex items-center gap-2">
+                  <Target className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500" />
                   How to Earn XP
                 </CardTitle>
-                <CardDescription className="text-gray-400">
+                <CardDescription className="text-gray-400 text-xs sm:text-sm">
                   Complete coding challenges to earn experience points and climb the ranks
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                    <div className="text-2xl font-bold text-emerald-400">+50 XP</div>
-                    <p className="text-sm text-gray-400 mt-1">Easy Problem</p>
+              <CardContent className="p-3 sm:p-4 lg:p-6 pt-0">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+                  <div className="text-center p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <div className="text-lg sm:text-xl lg:text-2xl font-bold text-emerald-400">+50</div>
+                    <p className="text-xs sm:text-sm text-gray-400 mt-1">Easy Problem</p>
                   </div>
-                  <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                    <div className="text-2xl font-bold text-yellow-400">+75 XP</div>
-                    <p className="text-sm text-gray-400 mt-1">Medium Problem</p>
+                  <div className="text-center p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <div className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-400">+75</div>
+                    <p className="text-xs sm:text-sm text-gray-400 mt-1">Medium Problem</p>
                   </div>
-                  <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                    <div className="text-2xl font-bold text-rose-400">+100 XP</div>
-                    <p className="text-sm text-gray-400 mt-1">Hard Problem</p>
+                  <div className="text-center p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <div className="text-lg sm:text-xl lg:text-2xl font-bold text-rose-400">+100</div>
+                    <p className="text-xs sm:text-sm text-gray-400 mt-1">Hard Problem</p>
                   </div>
-                  <div className="text-center p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                    <div className="text-2xl font-bold text-purple-400">+200 XP</div>
-                    <p className="text-sm text-gray-400 mt-1">Contest Win</p>
+                  <div className="text-center p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <div className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-400">+200</div>
+                    <p className="text-xs sm:text-sm text-gray-400 mt-1">Contest Win</p>
                   </div>
                 </div>
               </CardContent>
@@ -389,6 +433,77 @@ export default function BadgesPage() {
           </div>
         </div>
       </SidebarInset>
+
+      {/* Rank Details Dialog */}
+      <Dialog open={showRankDetails} onOpenChange={setShowRankDetails}>
+        <DialogContent className="bg-gray-900 border-gray-700 max-w-sm sm:max-w-md mx-4">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-3">
+              {selectedRank && (
+                <>
+                  <div
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full ${selectedRank.bgColor} border-2 ${selectedRank.borderColor} flex items-center justify-center`}
+                  >
+                    <selectedRank.icon />
+                  </div>
+                  <div>
+                    <h3 className={`text-lg sm:text-xl font-bold ${selectedRank.textColor}`}>{selectedRank.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-400">{selectedRank.xpRange} XP</p>
+                  </div>
+                </>
+              )}
+            </DialogTitle>
+            <DialogDescription className="text-gray-400 text-sm">{selectedRank?.description}</DialogDescription>
+          </DialogHeader>
+
+          {selectedRank && (
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-300">XP Range:</span>
+                    <span className="text-white font-medium">{selectedRank.xpRange}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-300">Status:</span>
+                    <span className="text-white font-medium">
+                      {currentXP >= selectedRank.minXP ? "Unlocked" : "Locked"}
+                    </span>
+                  </div>
+                  {currentXP < selectedRank.minXP && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">XP Needed:</span>
+                      <span className="text-orange-400 font-medium">
+                        {(selectedRank.minXP - currentXP).toLocaleString()}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Requirements */}
+              <div className="p-4 bg-gray-800/30 rounded-lg">
+                <h4 className="text-sm font-medium text-gray-300 mb-2">Requirements</h4>
+                <p className="text-xs text-gray-400">
+                  Reach {selectedRank.minXP.toLocaleString()} XP by solving coding problems and participating in
+                  contests.
+                </p>
+              </div>
+
+              {/* Benefits */}
+              <div className="p-4 bg-gray-800/30 rounded-lg">
+                <h4 className="text-sm font-medium text-gray-300 mb-2">Benefits</h4>
+                <ul className="text-xs text-gray-400 space-y-1">
+                  <li>• Exclusive rank badge</li>
+                  <li>• Profile showcase</li>
+                  <li>• Community recognition</li>
+                  {selectedRank.minXP >= 5000 && <li>• Special privileges</li>}
+                </ul>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   )
 }
