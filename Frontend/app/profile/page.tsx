@@ -466,6 +466,8 @@ export default function ProfilePage() {
   const [showCropper, setShowCropper] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const [avatarKey, setAvatarKey] = useState(Date.now().toString())
+
   const [profileData, setProfileData] = useState({
     firstName: "John",
     lastName: "Doe",
@@ -521,16 +523,41 @@ export default function ProfilePage() {
   const progressToNext = nextRank ? ((currentXP - currentRank.minXP) / (nextRank.minXP - currentRank.minXP)) * 100 : 100
 
   const handleCropComplete = (croppedImage: string) => {
+    // Create a unique URL to force re-render
+    const timestamp = Date.now()
+
+    // Update both profile data states immediately
     setProfileData((prev) => ({ ...prev, avatar: croppedImage }))
     setEditData((prev) => ({ ...prev, avatar: croppedImage }))
 
     // Save avatar to localStorage for persistence across the app
     localStorage.setItem("userAvatar", croppedImage)
 
+    // Trigger a custom event to notify other components
+    window.dispatchEvent(new CustomEvent("avatarUpdated", { detail: { avatar: croppedImage } }))
+
+    // Force a re-render by updating a separate state
+    setAvatarKey(timestamp.toString())
+
     setShowCropper(false)
     setSelectedImage(null)
     setShowAvatarDialog(false)
   }
+
+  useEffect(() => {
+    const handleAvatarUpdate = (event: CustomEvent) => {
+      const newAvatar = event.detail.avatar
+      setProfileData((prev) => ({ ...prev, avatar: newAvatar }))
+      setEditData((prev) => ({ ...prev, avatar: newAvatar }))
+      setAvatarKey(Date.now().toString())
+    }
+
+    window.addEventListener("avatarUpdated", handleAvatarUpdate as EventListener)
+
+    return () => {
+      window.removeEventListener("avatarUpdated", handleAvatarUpdate as EventListener)
+    }
+  }, [])
 
   useEffect(() => {
     // Load user data from localStorage
@@ -551,10 +578,14 @@ export default function ProfilePage() {
           }
           setProfileData(updatedData)
           setEditData(updatedData)
+          if (storedAvatar) {
+            setAvatarKey(Date.now().toString())
+          }
         } else if (storedAvatar) {
           // If only avatar is stored, update just the avatar
           setProfileData((prev) => ({ ...prev, avatar: storedAvatar }))
           setEditData((prev) => ({ ...prev, avatar: storedAvatar }))
+          setAvatarKey(Date.now().toString())
         }
       } catch (error) {
         console.error("Error loading user data:", error)
@@ -656,8 +687,16 @@ export default function ProfilePage() {
                   {/* Avatar and Name */}
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                     <div className="relative">
-                      <Avatar className="h-24 w-24 ring-4 ring-orange-500/30">
-                        <AvatarImage src={profileData.avatar || "/placeholder.svg"} />
+                      <Avatar className="h-24 w-24 ring-4 ring-orange-500/30" key={`profile-${avatarKey}`}>
+                        {profileData.avatar && profileData.avatar.startsWith("data:") ? (
+                          <img
+                            src={profileData.avatar || "/placeholder.svg"}
+                            alt="Profile picture"
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        ) : (
+                          <AvatarImage src={profileData.avatar || "/placeholder.svg"} alt="Profile picture" />
+                        )}
                         <AvatarFallback className="bg-gradient-to-br from-orange-500 to-amber-500 text-white font-bold text-2xl">
                           {initials}
                         </AvatarFallback>

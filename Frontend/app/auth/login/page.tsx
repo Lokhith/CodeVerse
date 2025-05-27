@@ -223,13 +223,6 @@ export default function LoginPage() {
                 Forgot password?
               </Link>
             </div>
-
-            {/* Demo credentials hint */}
-            <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-              <p className="text-xs text-blue-400 font-medium mb-1">Demo Credentials:</p>
-              <p className="text-xs text-gray-400">Email: john@example.com</p>
-              <p className="text-xs text-gray-400">Password: password123</p>
-            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4 pt-6">
             <Button

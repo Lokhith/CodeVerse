@@ -77,6 +77,7 @@ export function AppSidebar() {
   const router = useRouter()
   const [showLogoutDialog, setShowLogoutDialog] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const [avatarKey, setAvatarKey] = useState(Date.now().toString())
 
   const [userData, setUserData] = useState({
     firstName: "John",
@@ -105,6 +106,13 @@ export function AppSidebar() {
             initials: `${user.firstName?.[0] || "J"}${user.lastName?.[0] || "D"}`,
             avatar: storedAvatar || "/placeholder.svg?height=40&width=40",
           })
+          if (storedAvatar) {
+            setAvatarKey(Date.now().toString())
+          }
+        } else if (storedAvatar) {
+          // If only avatar is stored, update just the avatar
+          setUserData((prev) => ({ ...prev, avatar: storedAvatar }))
+          setAvatarKey(Date.now().toString())
         }
       } catch (error) {
         console.error("Error loading user data:", error)
@@ -112,6 +120,34 @@ export function AppSidebar() {
     }
 
     getUserData()
+
+    // Also listen for storage changes (in case avatar is updated from another tab)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "userAvatar" && e.newValue) {
+        setUserData((prev) => ({ ...prev, avatar: e.newValue }))
+        setAvatarKey(Date.now().toString())
+      }
+    }
+
+    window.addEventListener("storage", handleStorageChange)
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleAvatarUpdate = (event: CustomEvent) => {
+      const newAvatar = event.detail.avatar
+      setUserData((prev) => ({ ...prev, avatar: newAvatar }))
+      setAvatarKey(Date.now().toString())
+    }
+
+    window.addEventListener("avatarUpdated", handleAvatarUpdate as EventListener)
+
+    return () => {
+      window.removeEventListener("avatarUpdated", handleAvatarUpdate as EventListener)
+    }
   }, [])
 
   const handleLogout = async () => {
@@ -228,8 +264,16 @@ export function AppSidebar() {
                 href="/profile"
                 className="flex items-center gap-3 mx-2 p-3 hover:bg-gray-800 rounded-lg transition-colors"
               >
-                <Avatar className="h-10 w-10 ring-2 ring-orange-500/30">
-                  <AvatarImage src={userData.avatar || "/placeholder.svg"} />
+                <Avatar className="h-10 w-10 ring-2 ring-orange-500/30" key={`sidebar-${avatarKey}`}>
+                  {userData.avatar && userData.avatar.startsWith("data:") ? (
+                    <img
+                      src={userData.avatar || "/placeholder.svg"}
+                      alt="Profile picture"
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  ) : (
+                    <AvatarImage src={userData.avatar || "/placeholder.svg"} alt="Profile picture" />
+                  )}
                   <AvatarFallback className="bg-gradient-to-br from-orange-500 to-amber-500 text-white font-bold text-sm">
                     {userData.initials}
                   </AvatarFallback>
